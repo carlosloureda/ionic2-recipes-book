@@ -45,17 +45,27 @@
   </form>
 
   <ion-list>
-    <ion-item 
+    <ion-item-sliding 
       *ngFor="let item of listItems; let i = index" 
-      (click)="onCheckedItem(i)"
     >
-      <h3>{{item.name}} ({{item.amount}})</h3>
+      <ion-item>
+        <h3>{{item.name}} ({{item.amount}})</h3>  
+      </ion-item>  
+      <ion-item-options>
+        <button
+          ion-button color="danger"
+          (click)="onDeleteItem(i)"
+        >
+          <ion-icon name="trash">Remove</ion-icon>
+        </button>
+      </ion-item-options>  
+      
       <!-- <button
         ion-button icon-only
         (click)="onRemoveItem()"
       >
         <ion-icon name="ion-trash"></ion-icon>
       </button> -->
-    </ion-item>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

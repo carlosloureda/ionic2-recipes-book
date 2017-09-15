@@ -32,7 +32,7 @@ export class ShoppingListPage {
     this.loadItems();
   }
 
-  onCheckedItem(index: number) {
+  onDeleteItem(index: number) {
     this.slService.removeItem(index);
     this.loadItems();
   }
