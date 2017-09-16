@@ -34,7 +34,9 @@
         </ion-input>
       </ion-item>
     </ion-list>
+    <!-- SAVE && UPDATE BUTTONS, DEPENDING ON UPDATE MODE OR NOT -->
     <button 
+      *ngIf="!updateMode"
       ion-button 
       type="submit" 
       block
@@ -42,11 +44,35 @@
     >
       Add Item
     </button>
+    <ion-row>
+      <ion-col>
+          <button 
+          *ngIf="updateMode"
+          ion-button 
+          type="submit" 
+          block
+          [disabled]="!form.valid"
+        >
+          Update
+        </button>
+      </ion-col>       
+      <ion-col>
+        <button 
+          *ngIf="updateMode"
+          ion-button 
+          block
+          (click)="onCancelUpdate()"
+        >
+          Cancel
+        </button>
+      </ion-col>       
+    </ion-row>
   </form>
 
   <ion-list>
     <ion-item-sliding 
       *ngFor="let item of listItems; let i = index" 
+      (click)="onCheckedItem(item)"
     >
       <ion-item>
         <h3>{{item.name}} ({{item.amount}})</h3>  

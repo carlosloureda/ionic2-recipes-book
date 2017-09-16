@@ -1,6 +1,6 @@
 import { Ingredient } from './../../models/ingredient';
 import { ShoppingListService } from './../../services/shopping-list';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -19,13 +19,30 @@ export class ShoppingListPage {
   private listItems: Ingredient[];
   constructor(private slService: ShoppingListService) {}
 
+  private updateMode: boolean = false;
+  // TODO: used while we don't use _ids as we need something to update database
+  private updateOriginalName: string;
+
+  @ViewChild('form') form;
+
   onAddItem(form: NgForm) {
-    console.log("on item added");
+    if (this.updateMode) {
+      console.log("on item update");
+      this.slService.updateItem(
+        form.value.ingredientName, 
+        form.value.amount,
+        this.updateOriginalName
+      );
+    } else {
+      console.log("on item add");
+      this.slService.addItem(form.value.ingredientName, form.value.amount);
+    }
+
     // console.log(form);
-    this.slService.addItem(form.value.ingredientName, form.value.amount);
     form.reset();
     // refresh the list
     this.loadItems(); 
+    this.updateMode = false;
   }
   // will be fired even popon cached views
   ionViewWillEnter() {
@@ -35,6 +52,18 @@ export class ShoppingListPage {
   onDeleteItem(index: number) {
     this.slService.removeItem(index);
     this.loadItems();
+  }
+
+  onCheckedItem(item: Ingredient) {
+    this.form.controls.ingredientName.setValue(item.name);
+    this.form.controls.amount.setValue(item.amount);
+    this.updateMode = true;
+    this.updateOriginalName = item.name;
+  }
+
+  onCancelUpdate() {
+    this.form.reset();
+    this.updateMode = false;
   }
 
   private loadItems() {
