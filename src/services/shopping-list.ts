@@ -23,7 +23,9 @@ export class ShoppingListService {
         this.ingredients.push(...items);
     }
     removeItem(index: number) {
-        this.ingredients.slice(index, 1);
+        console.log("this.ingredients before: ", this.ingredients);        
+        this.ingredients.splice(index, 1);
+        console.log("this.ingredients after: ", this.ingredients);
     }
     getItems() {
         return this.ingredients.slice();

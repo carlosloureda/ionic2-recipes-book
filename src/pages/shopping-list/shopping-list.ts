@@ -50,6 +50,8 @@ export class ShoppingListPage {
   }
 
   onDeleteItem(index: number) {
+    console.log("on delete item, index: ", index);
+    
     this.slService.removeItem(index);
     this.loadItems();
   }
